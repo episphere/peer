@@ -2,7 +2,7 @@ function hello(params) {
     return `hello epiPeer at ${Date()}`
 }
 
-async function checkPeerjs(){
+async function insertPeerjs(){
     let msg = 'peerjs inserted'
     if(typeof(peerjs)=='undefined'){
         await import('https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js')
@@ -14,4 +14,4 @@ async function checkPeerjs(){
     return msg
 }
 
-export {hello,checkPeerjs}
+export {hello,insertPeerjs}
