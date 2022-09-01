@@ -14,8 +14,11 @@ async function insertPeerjs(){
     return msg
 }
 
+var nodes=[] // list of active local nodes
+
 async function createNode(id=crypto.randomUUID()){ // this node's id, which peer nodes need to know to call in. If not provided a new one will be created
     let node = new Peer(id)
+    nodes.push(node)
     return node
 }
 
@@ -29,13 +32,13 @@ async function connect(node,id,msg=`sent at ${Date}`){ // connecting this node w
     return node
 }
 
-async function receive(node){ // receiveing messages from those knowing my id
+async function receive(node,fun=console.log){ // receiveing messages from those knowing the node's id
     node.on('connection', function(conn) {
       conn.on('data', function(data){
         // Will print msg received
-        console.log(data);
+        fun(data);
       });
     });
 }
 
-export {hello,insertPeerjs,createNode}
+export {hello,insertPeerjs,createNode,nodes}

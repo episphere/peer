@@ -8,6 +8,29 @@
 <h1>epiPeer <br><sup style="font-size:small;color:navy"> [<a href="https://github.com/episphere/peer" target="_blank">code</a>] [<a href="https://observablehq.com/@episphere/peer" target="_blank">Notebook</a>] [<a href="https://github.com/episphere/peer/wiki" target="_blank">Documentation</a>] [<a href="https://www.youtube.com/playlist?list=PLkL13FANCVB1APOiA8IQm18hKAstGpKNV" target="_blank"><span style="color:red">YouTube</span> Tutorial</a>] [<a href="https://github.com/episphere/peer/discussions" target="_blank">Discussion</a>] </sup></h1>
 <hr>
 <div id="peerDiv">
+<ul>
+    <li id="localNodeLi"> <button id="createLocalNodeBt">Create local node</button> <span id="localNodeIDsp"> id: <input id="nodeIdIp" size=40 style="color:green"></span></li>
+    <li>List of local nodes <ol id="listLocalNodes"></ol></li>
+</ul>
 </div>
+<script>
+    createLocalNodeBt.onclick=async()=>{
+        console.log('clicked')
+        if(nodeIdIp.value.length==0){
+            nodeIdIp.value=crypto.randomUUID()
+        }
+        setTimeout(()=>{
+            nodeIdIp.value=''
+        },1000)
+        let newNode=await epiPeer.createNode(nodeIdIp.value)
+        // update list of local nodes
+        let newLi = document.createElement('li')
+        newLi.innerHTML=`<span style="color:green">${newNode._id}</span><br> (<span style="color:blue">...</span>)`
+        listLocalNodes.appendChild(newLi)
+        //debugger
+    }
+
+    
+</script>
 </body>
 </html>
