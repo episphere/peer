@@ -8,27 +8,67 @@
 <h1>epiPeer <br><sup style="font-size:small;color:navy"> [<a href="https://github.com/episphere/peer" target="_blank">code</a>] [<a href="https://observablehq.com/@episphere/peer" target="_blank">Notebook</a>] [<a href="https://github.com/episphere/peer/wiki" target="_blank">Documentation</a>] [<a href="https://www.youtube.com/playlist?list=PLkL13FANCVB1APOiA8IQm18hKAstGpKNV" target="_blank"><span style="color:red">YouTube</span> Tutorial</a>] [<a href="https://github.com/episphere/peer/discussions" target="_blank">Discussion</a>] </sup></h1>
 <hr>
 <div id="peerDiv">
+    <p id="msgP">&nbsp</p>
 <ul>
-    <li id="localNodeLi"> <button id="createLocalNodeBt">Create local node</button> <span id="localNodeIDsp"> id: <input id="nodeIdIp" size=40 style="color:green"></span></li>
-    <li>List of local nodes <ol id="listLocalNodes"></ol></li>
+    <li id="localNodeLi"> <button id="createLocalNodeBt">Create local node</button> <span id="localNodeIDsp"> id <input id="nodeIdIp" size=40 style="color:green"></span></li>
+    <li>List of local nodes: <ol id="listLocalNodes"></ol></li>
+    <!--
+    <li id="localConnectionLi"> <button id="createConnectionBt">Create connection</button> <span id="localNodeIDsp"> with peer id <input id="connectionIdIp" size=40 style="color:green"></span></li>
+    <li>List of connections: <ol id="listConnections"></ol></li>
+    -->
+    
 </ul>
 </div>
 <script>
+    function msg(html, t=1000){
+        msgP.innerHTML=html
+        setTimeout(()=>{
+            msgP.innerHTML='&nbsp'
+        },t)
+    }
+    
     createLocalNodeBt.onclick=async()=>{
-        console.log('clicked')
+        //console.log('create node')
+        createLocalNodeBt.disabled=true
         if(nodeIdIp.value.length==0){
             nodeIdIp.value=crypto.randomUUID()
+            msg('<span style="color:orange">random id created automatically</span>')
         }
         setTimeout(()=>{
             nodeIdIp.value=''
+            createLocalNodeBt.disabled=false
         },1000)
         let newNode=await epiPeer.createNode(nodeIdIp.value)
         // update list of local nodes
         let newLi = document.createElement('li')
-        newLi.innerHTML=`<span style="color:green">${newNode._id}</span><br> (<span style="color:blue">...</span>)`
+        newLi.innerHTML=`<span style="color:green">${newNode._id}</span><br><button id="createConnectionBt">Create connection</button> with id <input id="peerIdIp" size=40><ul style="color:blue" class="listReceived"></ul>`
         listLocalNodes.appendChild(newLi)
+        createConnectionBt.onclick=async()=>{
+            let peerId = peerIdIp.value
+            console.log(`thinking about creating connection with ${peerId}`)
+            if(peerId.length==0){
+                msg('<span style="color:red">Connection missing peer id</span>')
+            }else{
+                console.log('creating connection')
+                //debugger
+                //let newConn = await epiPeer.createConnection(newNode,peerId)
+                //debugger
+            }
+        }
         //debugger
     }
+
+    /*
+    createConnectionBt.onclick=async()=>{
+        console.log('create connection')
+        if(nodeIdIp.value.length==0){
+            msg('<span style="color:red">Connection missing peer id</span>')
+        }else{
+            
+        }
+        
+    }
+    */
 
     
 </script>
