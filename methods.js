@@ -25,10 +25,15 @@ async function createNode(id=crypto.randomUUID()){ // this node's id, which peer
 async function createConnection(node,peerId,msg=`sent at ${Date}`){ // connecting this node with peer node with given id
     var conn = node.connect(peerId); 
     // on open will be launch when you successfully connect to PeerServer
+    // Send
     conn.on('open', function(){
       // here you have conn.id
       conn.send(msg);
     });
+    // receive
+    conn.on('data', function(data) {
+	  console.log('Received', data);
+	});
     return node
 }
 
