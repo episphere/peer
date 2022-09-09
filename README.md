@@ -1,2 +1,5 @@
 # peer
-exploring p2p distributed computation
+Exploring p2p distributed computation.
+Live at https://episphere.github.io/peer !
+
+
