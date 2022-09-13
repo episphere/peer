@@ -18,22 +18,26 @@ var nodes=[] // list of active local nodes
 
 async function createNode(id=crypto.randomUUID()){ // this node's id, which peer nodes need to know to call in. If not provided a new one will be created
     let node = new Peer(id)
+	//node.conns=[] // no need, node._connections takes care of this
     nodes.push(node)
     return node
 }
 
-async function createConnection(node,peerId,msg=`sent at ${Date}`){ // connecting this node with peer node with given id
-    var conn = node.connect(peerId); 
+async function createConnection(node,peerId,msg=`${node._id} connecting with ${peerId} at ${Date()}`){ // connecting this node with peer node with given id
+    console.log(msg)
+	var conn = node.connect(peerId); 
     // on open will be launch when you successfully connect to PeerServer
     // Send
-    conn.on('open', function(){
-      // here you have conn.id
-      conn.send(msg);
+    conn.on('open', function(c){
+		console.log(`connection open`, conn)
+		//conn.on('data', function(data) {
+		//  console.log('Received', data);
+		//});
     });
     // receive
-    conn.on('data', function(data) {
-	  console.log('Received', data);
-	});
+    //conn.on('data', function(data) {
+	//  console.log('Received', data);
+	//});
     return node
 }
 

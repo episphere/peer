@@ -37,13 +37,13 @@
         setTimeout(()=>{
             nodeIdIp.value=''
             createLocalNodeBt.disabled=false
-        },1000)
+        },100)
         let newNode=await epiPeer.createNode(nodeIdIp.value)
         // update list of local nodes
         let newLi = document.createElement('li')
         let i = listLocalNodes.childNodes.length
         //let j =0
-        newLi.innerHTML=`<span style="color:green">${newNode._id}</span><br><button id="createConnectionBt_${i}">Create connection</button> with Peer id <input id="peerIdIp_${i}" class="peerIdIp" size=40><ul style="color:blue" id="peerConnection"></ul>`
+        newLi.innerHTML=`<span style="color:green">${newNode._id}</span><br><button id="createConnectionBt_${i}">Create connection</button> with Peer id <input id="peerIdIp_${i}" class="peerIdIp" size=40><ul style="color:blue" id="peerConnections_${i}"></ul>`
         listLocalNodes.appendChild(newLi)
         let createConnectionBt=document.getElementById(`createConnectionBt_${i}`)
         createConnectionBt.onclick= async ()=>{
@@ -54,9 +54,14 @@
             if(peerId.length==0){
                 msg('<span style="color:red">Connection missing peer id</span>')
             }else{
-                console.log(`creating connection at ${Date()} with ${peerId}`)
+                //console.log(`creating connection at ${Date()} with ${peerId}`)
                 let newConn = await epiPeer.createConnection(newNode,peerId)
-                debugger
+                console.log('new connection',newConn)
+                let ul = document.getElementById(`peerConnections_${i}`)
+                let newLiConn = document.createElement('li')
+                newLiConn.innerHTML=`Connection with ${peerId}`
+                ul.appendChild(newLiConn)
+                //debugger
             }
         }
         //debugger
