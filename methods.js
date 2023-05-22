@@ -1,6 +1,4 @@
-function hello(params) {
-    return `hello epiPeer at ${Date()}`
-}
+const hello = `hello epiPeer at ${Date()}`
 
 async function insertPeerjs(){
     let msg = 'peerjs inserted'
