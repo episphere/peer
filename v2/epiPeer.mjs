@@ -1,0 +1,1 @@
+console.log(`${location.origin}${location.pathname}epiPath.js loaded \n${Date()}`)
